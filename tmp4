@@ -1,0 +1,155 @@
+<!doctype html>
+<html>
+	<head><meta charset='utf-8' />
+	<title>test</title>
+	</head>
+	<body style='background:black;'>
+		<div>
+			<p>1</p>
+			<p>2</p>
+			<ul id='lista'>
+				  <li>Coffee</li>
+				  <li>Tea</li>
+				  <li>Milk</li>
+			</ul>
+		</div>
+		<div>
+			<iframe src="">http://www.w3schools.com</iframe>
+		</div>
+
+<!--
+/*
+see also
+document.createNodeIterator
+The NodeIterator object provides a "flattened" sequential view of the nodes in a document and supports filtering
+*/
+-->	
+<script>
+/*
+▶     -1		NodeFilter.SHOW_ALL	
+▶       1		NodeFilter.SHOW_ELEMENT
+▶       2		NodeFilter.SHOW_ATTRIBUTE*
+▶       4		NodeFilter.SHOW_TEXT
+▶       8		NodeFilter.SHOW_CDATA_SECTION
+▶     16		NodeFilter.SHOW_ENTITY_REFERENCE
+▶     32		NodeFilter.SHOW_ENTITY*
+▶     64		NodeFilter.SHOW_PROCESSING_INSTRUCTION
+▶   128		NodeFilter.SHOW_COMMENT
+▶   256		NodeFilter.SHOW_DOCUMENT
+▶   512		NodeFilter.SHOW_DOCUMENT_TYPE
+▶ 1024		NodeFilter.SHOW_DOCUMENT_FRAGMENT
+▶ 2048		NodeFilter.SHOW_NOTATIONS*
+
+(ATTRIBUTE,ENTITY,NOTATIONS meaningful only when creating a TreeWalker with a kind node as its root)
+document.createTreeWalker(root, whatToShow, filter, entityReferenceExpansion);
+
+Moves the currentNode -into the rootNode defined at the objectConstruction-  to the his:
+ [visible]
+	 .parentNode()
+	 .firstChild()
+	 .lastChild()
+ [in the document order]
+	 .previousNode()
+	 .nextNode() 
+ [visible or not, ]
+	 .previousSibling()  
+	 .nextSibling()
+and return it;also moves the currentNode to this:if no exists, returns null* and the currentNode is not changed.
+*/
+
+
+function $id(s){return document.getElementById(s)};
+//
+
+function isDocument(e){return e.nodeType===9};
+//
+
+function walkTree(e,k,f,x){
+ var d,h,n,o='documentElement';
+ if(isDocument(e)){d=e;n=h=d[o]}else{d=e.ownerDocument;n=e;h=d[o]};
+ o=d.createTreeWalker(n,k>0?/1|2|4|8|16|32|64|128|256|512|1024|2048/.test(k)||-1:-1,f?{acceptNode:f}:null,x?x:0);
+ o.rootHtml=h;
+ return o
+};
+//
+
+ 
+
+function Walk(e){
+	var o=walkTree(e,1), n=o.root;
+	e.depth=0;
+
+	console.log('walked:%o',o);
+
+
+	function handleElement(x){
+		var p=x.parentNode;
+		x.depth=p?p.depth+1:0;
+		console.log('Element:',x.depth,x);
+	};
+
+
+	do{
+		//if(isDocument(n)){handleDocument(n);continue}else{handleElement(n)};
+	}while(n=o.nextNode());
+	
+};
+//
+
+
+//getNodes
+Walk(document);
+Walk($id("lista"));
+
+//
+
+
+//DomTree tagTree
+//function (e){return }
+</script></body></html>
+<!--
+//if(isDocument(n)){handleDocument(n);continue}else{handleElement(n)};
+	//n=isDocument(n)?o.nextNode():n;
+	//o.currentNode
+	HTMLElement
+
+	var d,n;
+	
+	if(isDocument(e)){
+		d=e;
+		n=e.documentElement
+	}else{
+		d=e.ownerDocument
+		n=e
+	};
+	
+	
+tagName
+o.hasOwnProperty('tagName');
+
+	//now: o.currentNode===o.root
+
+	
+	//console.log(o.currentNode);
+	console.dir(o);
+	
+var node = o.root
+       while (node !== null) {
+           output.value += node.tagName + "\n";                   
+           node = walker.nextSibling();
+       }
+	
+	
+/*
+	while(x=o.nextNode()){
+	 //console.dir(x);
+	 m.push(x);
+	}
+	//m.root=d;
+*/
+
+
+	m=[];
+
+	return m;
+-->
