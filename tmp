@@ -1,0 +1,120 @@
+<!doctype html>
+<html>
+	<head><meta charset='utf-8' />
+	<title>test</title>
+	</head>
+	<body style='background:black;'>
+		<div>
+			<p>1</p>
+			<p>2</p>
+			<ul>
+				  <li>Coffee</li>
+				  <li>Tea</li>
+				  <li>Milk</li>
+			</ul>
+		</div>
+	
+<!--
+/*
+see also
+document.createNodeIterator
+The NodeIterator object provides a "flattened" sequential view of the nodes in a document and supports filtering
+*/
+-->	
+<script>
+/*
+▶     -1		NodeFilter.SHOW_ALL	
+▶       1		NodeFilter.SHOW_ELEMENT
+▶       2		NodeFilter.SHOW_ATTRIBUTE*
+▶       4		NodeFilter.SHOW_TEXT
+▶       8		NodeFilter.SHOW_CDATA_SECTION
+▶     16		NodeFilter.SHOW_ENTITY_REFERENCE
+▶     32		NodeFilter.SHOW_ENTITY*
+▶     64		NodeFilter.SHOW_PROCESSING_INSTRUCTION
+▶   128		NodeFilter.SHOW_COMMENT
+▶   256		NodeFilter.SHOW_DOCUMENT
+▶   512		NodeFilter.SHOW_DOCUMENT_TYPE
+▶ 1024		NodeFilter.SHOW_DOCUMENT_FRAGMENT
+▶ 2048		NodeFilter.SHOW_NOTATIONS*
+(ATTRIBUTE,ENTITY,NOTATIONS meaningful only when creating a TreeWalker with a kind node as its root)
+document.createTreeWalker(root, whatToShow, filter, entityReferenceExpansion);
+
+
+Moves the currentNode -into the rootNode defined at the objectConstruction-  to the his:
+ [visible]
+	 .parentNode()
+	 .firstChild()
+	 .lastChild()
+ [in the document order]
+	 .previousNode()
+	 .nextNode() 
+ [visible or not, ]
+	 .previousSibling()  
+	 .nextSibling()
+and return it;also moves the currentNode to this:if no exists, returns null* and the currentNode is not changed.
+*/
+
+
+
+//DomTree tagTree
+//function (e){return }
+
+function isDocument(e){return e.nodeType===9};
+//
+
+function getNodes(e,f,k,x){
+	var x,
+	d=isDocument(e)?e:e.ownerDocument;
+	return d.createTreeWalker(e,k>0?/1|2|4|8|16|32|64|128|256|512|1024|2048/.test(k)||-1:-1,f?{acceptNode:f}:null,x?x:0);
+};
+//
+
+function elementNodesFrom(e,f,x){return getNodes(e,f,1,x)};
+//
+
+function Walk(e){
+	var o=elementNodesFrom(e),n=o.root;
+	console.log('walked:%o',o);
+	o.currentNode=isDocument(n)?o.nextNode():n;
+	do{
+		console.log(o.currentNode);
+	}while(o.nextNode());
+};
+//
+
+Walk(document);
+//
+
+
+
+</script></body></html>
+<!--
+tagName
+o.hasOwnProperty('tagName');
+
+	//now: o.currentNode===o.root
+
+	
+	//console.log(o.currentNode);
+	console.dir(o);
+	
+var node = o.root
+       while (node !== null) {
+           output.value += node.tagName + "\n";                   
+           node = walker.nextSibling();
+       }
+	
+	
+/*
+	while(x=o.nextNode()){
+	 //console.dir(x);
+	 m.push(x);
+	}
+	//m.root=d;
+*/
+
+
+	m=[];
+
+	return m;
+-->
