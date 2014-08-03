@@ -1,0 +1,233 @@
+<!doctype html>
+<html>
+	<head><meta charset='utf-8' />
+	<title>test</title>
+	</head>
+	<body style='background:black;'>
+		<div>
+			<p>1</p>
+			<p>2</p>
+			<ul id='lista'>
+				  <li>Coffee</li>
+				  <li>Tea</li>
+				  <li>Milk</li>
+			</ul>
+		</div>
+		<div>
+			<iframe src="">http://www.w3schools.com</iframe>
+		</div>
+
+<!--
+/*
+see also
+document.createNodeIterator
+The NodeIterator object provides a "flattened" sequential view of the nodes in a document and supports filtering
+*/
+-->	
+<script>
+/*
+▶     -1		NodeFilter.SHOW_ALL	
+▶       1		NodeFilter.SHOW_ELEMENT
+▶       2		NodeFilter.SHOW_ATTRIBUTE*
+▶       4		NodeFilter.SHOW_TEXT
+▶       8		NodeFilter.SHOW_CDATA_SECTION
+▶     16		NodeFilter.SHOW_ENTITY_REFERENCE
+▶     32		NodeFilter.SHOW_ENTITY*
+▶     64		NodeFilter.SHOW_PROCESSING_INSTRUCTION
+▶   128		NodeFilter.SHOW_COMMENT
+▶   256		NodeFilter.SHOW_DOCUMENT
+▶   512		NodeFilter.SHOW_DOCUMENT_TYPE
+▶ 1024		NodeFilter.SHOW_DOCUMENT_FRAGMENT
+▶ 2048		NodeFilter.SHOW_NOTATIONS*
+
+(ATTRIBUTE,ENTITY,NOTATIONS meaningful only when creating a TreeWalker with a kind node as its root)
+document.createTreeWalker(root, whatToShow, filter, entityReferenceExpansion);
+
+Moves the currentNode -into the rootNode defined at the objectConstruction-  to the his:
+ [visible]
+	 .parentNode()
+	 .firstChild()
+	 .lastChild()
+ [in the document order]
+	 .previousNode()
+	 .nextNode() 
+ [visible or not, ]
+	 .previousSibling()  
+	 .nextSibling()
+and return it;also moves the currentNode to this:if no exists, returns null* and the currentNode is not changed.
+*/
+
+
+
+
+/*
+NON-USATI-MA-OK:
+
+(function(o,p){
+ p='repeat';o[p]=o[p]||function(i){return Array(i>=0?parseInt(i,10)+1:-1).join(this)};
+})(String.prototype);
+
+*/
+
+//
+function jPad(x){var m=Math,f=String,i=['length'];return f(m.round(m.pow(10,f(m.floor(x))[i])))[i]};
+function padLeft(a,b,c){a=String(a);(b=Array(Math.max(b-a.length,0))).push(a);return b.join(c)};
+function padLeftEmSpace(a,b){return padLeft(a,b,'\u2002')};
+//
+function $id(s){return document.getElementById(s)};
+//
+function isFunction(e){return typeof(e)==='function'};
+function isDocument(e){return e.nodeType===9};
+//
+function simpleObj(){return Object.create(null)};
+function keysOf(e){return Object.keys(e)};
+//
+function nodeFilterObj(e){return isFunction(e)?{acceptNode:e}:null};
+//
+function walkTree(e/*:root*/,k/*:whatToShow*/,f/*:filter*/,x/*:entityReferenceExpansion*/){
+ var d,h,n,o=nodeFilterObj(f),i='ownerDocument',j='documentElement';
+ if(isDocument(e)){d=e;n=h=d[j]}else{d=e[i];n=e;h=d[j]};
+ o=d.createTreeWalker(n,k>0?/1|2|4|8|16|32|64|128|256|512|1024|2048/.test(k)||-1:-1,o,x?x:0);
+ o.window=d.defaultView;
+ o[i]=d;o[j]=h;
+ return o
+};
+//
+
+
+
+
+
+ //var x,i,j=0,p=[id,'deepcounter'].join('-');
+function walk(e){
+ var o=walkTree(e,1), r=o.root, n=r, w=o.window, t=w.performance.now(), s='walker', id=[s,t].join('-'), i=0, m=[];
+ var tagNames=simpleObj();
+ 
+ console.group('Elements:');
+ console.time(id);
+ do{
+	m[i++]=n;
+	s=n.tagName||null;
+	if(s){
+		(tagNames[s]||(tagNames[s]=[])).push(n);
+	};
+	//j=n[p]=n.parentNode[p]+1;
+	
+	////console.log(x);
+	//n.depth=0;//n.depth||0;
+	//m.length
+	//n.depth=p?p.depth:0;
+	//console.log('p:%o',p,'\tn:',n);
+	//console.log();float:left; 
+	//console.log('%c'+i,'color: green; font-weight: bold;');display:block;width:200px
+	//console.log('%c'+i,'float:right;color: green; font-weight: bold;');text-align:right; text-indent:1200px;
+	//console.log();
+	
+
+
+	console.log('%c%s%c|%O','color:#7fb4d6;',padLeftEmSpace(i,5),'color:#e9caca;',n);
+ }while(n=o.nextNode());
+ console.groupEnd();
+ 
+ var tagstotal=Number(i);
+ var tagskind=keysOf(tagNames);
+ console.log('tag(nodes):',m,'\ntotal:',tagstotal,'\nused:',tagskind.join());
+ 
+ //getNumerosity
+	var s,t,e,m=[],i=0,l=jPad(tagstotal);
+	
+
+	while(s=tagskind[i]){e=tagNames[s];m[i]=[padLeftEmSpace(s.length,l),s];i++};
+	s=[];i=0;
+ 	while(e=m[i]){s[i]=e.join(':');i++};
+	console.log(s.join('\n')); 
+	
+	
+	
+ o.currentNode=r;
+ console.timeEnd(id);
+ console.debug('%cReturned Object:%o\n','color:#7fb4d6;font-size:.9em;',o);
+ return o;
+};
+//
+
+
+//getNodes
+walk(document);
+walk($id("lista"));
+
+
+
+
+/*
+function Walk(e){
+	var o=walkTree(e,1), n=o.root;
+	e.depth=0;
+	console.log('walked:%o',o);
+	do{
+	 var p=n.parentNode;
+	 n.depth=p?p.depth+1:0;
+	 console.log('Element:',n.depth,n);
+	}while(n=o.nextNode());
+};
+
+function (e){return};
+function(e){
+	 var m=o.report.tag.used;
+	 m.push(e);
+	 return true
+	}
+	o.report={
+	 tag:{used:[]}
+	};
+*/
+
+//DomTree tagTree
+//function (e){return }
+</script></body></html>
+<!--
+//if(isDocument(n)){handleDocument(n);continue}else{handleElement(n)};
+	//n=isDocument(n)?o.nextNode():n;
+	//o.currentNode
+	HTMLElement
+
+	var d,n;
+	
+	if(isDocument(e)){
+		d=e;
+		n=e.documentElement
+	}else{
+		d=e.ownerDocument
+		n=e
+	};
+	
+	
+tagName
+o.hasOwnProperty('tagName');
+
+	//now: o.currentNode===o.root
+
+	
+	//console.log(o.currentNode);
+	console.dir(o);
+	
+var node = o.root
+       while (node !== null) {
+           output.value += node.tagName + "\n";                   
+           node = walker.nextSibling();
+       }
+	
+	
+/*
+	while(x=o.nextNode()){
+	 //console.dir(x);
+	 m.push(x);
+	}
+	//m.root=d;
+*/
+
+
+	m=[];
+
+	return m;
+-->
