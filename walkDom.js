@@ -1,5 +1,5 @@
 function use(depth,childIndex,node){
- console.log('\t'.repeat(depth),childIndex,node.tagName);
+ console.log('-'.repeat(depth),childIndex,node.tagName);
 }
 //===========================
 function walkDom(process){
