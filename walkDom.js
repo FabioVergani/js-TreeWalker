@@ -32,7 +32,7 @@ n=e.parentElement.querySelectorAll(s);console.log(n,n.length);
 
 function use(node){
  const m=path, e=node, t=e.tagName, j=e.childIndex, n=e.typeIndex, i=e.depth;
- let s,u,indented='\u0020'.repeat(i),c='';
+ let s,u,indented='\u0020'.repeat(i),a,c='';
  m.length=i;
  s='class';
  if(e.hasAttribute(s)){
@@ -45,13 +45,21 @@ function use(node){
 	u=e.id;
 	e.removeAttribute(s);
  };
+ e.removeAttribute('style');
+ a=e.attributes;
+ if(a.length!==0){
+	a=[].slice.call(a).map(function(x){
+	 return ['[',x.nodeName,'="',x.nodeValue,'"]'].join('');
+	}).join('');
+ }else{a=''};
+
  if(u){
-	s=t+'#'+u+c;
+	s=t+'#'+u+a+c;
 	m[i]=[s];
 	m.lastId=i;
 	indented+=s;
  }else{
-	s=t+c;
+	s=t+a+c;
 	if(i>1){
 	 if(j>1){
 		if(n>1){
