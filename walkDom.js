@@ -16,29 +16,40 @@ const path=[];
 		s=s+':last-child()';
 	 };
 n=e.parentElement.querySelectorAll(s);console.log(n,n.length);
+	 if(n!==1){//n>1
+		s=s+':nth-of-type('+n+')';
+	 }else{//n==1
+		s=s+':first-of-type';
+	 };
+
 
 */
 
 
 function use(node){
- const m=path, e=node, j=e.childIndex, i=e.depth;
+ const m=path, e=node, t=e.tagName, j=e.childIndex, i=e.depth, n=e.typeIndex;
  let s=e.id;
+ m.length=i;
  if(s){
-	s='#'+s;
+	s=t+'#'+s;
+	m[i]=[s];
+	m.lastId=i;
+	console.log(i,'-'.repeat(i)+s);
  }else{
-	s=e.tagName;
+	s=t;
 	if(i>1){
 	 if(j>1){
-		if(e.typeIndex>1){
+		if(n>1){
 		 s=s+':nth-child('+j+')';
 		};
 	 };
 	};
+	m[i]=[s];
+	console.log(i,'-'.repeat(i)+m.slice(m.lastId).join('\u0020>\u0020'));
  };
 
- m.length=i;
- m[i]=[s];
- console.log(i,m.join('\u0020>\u0020'));
+
+
 }
 //===========================
 function walkDom(process){
