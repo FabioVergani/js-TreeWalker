@@ -21,35 +21,49 @@ n=e.parentElement.querySelectorAll(s);console.log(n,n.length);
 	 }else{//n==1
 		s=s+':first-of-type';
 	 };
-
-
+	while(l){
+		x=a+s[--l];
+		if(.querySelectorAll(s)){}
+			console.log(l,);
+	};
+.replace('\u0020\u0020','\t')
 */
 
 
 function use(node){
- const m=path, e=node, t=e.tagName, j=e.childIndex, i=e.depth, n=e.typeIndex;
- let s=e.id;
- m.length=i;
- if(s){
-	s=t+'#'+s;
+ const m=path, e=node, t=e.tagName, j=e.childIndex, n=e.typeIndex, i=e.depth;
+ let s,u,indented='\u0020'.repeat(i),c='';
+ s='class';
+ if(e.hasAttribute(s)){
+	c=e.className.trim().split(/\s+/).join('\.');
+	e.removeAttribute(s);
+	if(c.length!==0){c='.'+c;};//todo:stripbadclass
+ };
+ s='id';
+ if(e.hasAttribute(s)){
+	u=e.id;
+	e.removeAttribute(s);
+ };
+ if(u){
+	s=t+'#'+u+c;
 	m[i]=[s];
 	m.lastId=i;
-	console.log(i,'-'.repeat(i)+s);
+	indented+=s;
  }else{
-	s=t;
+	s=t+c;
 	if(i>1){
 	 if(j>1){
 		if(n>1){
-		 s=s+':nth-child('+j+')';
+		 s+=':nth-child('+j+')';
 		};
 	 };
 	};
 	m[i]=[s];
-	console.log(i,'-'.repeat(i)+m.slice(m.lastId).join('\u0020>\u0020'));
+	s=m.slice(m.lastId);
+	indented+=s.join('\u0020>\u0020');
  };
-
-
-
+ m.length=i;
+ console.log(i,indented);
 }
 //===========================
 function walkDom(process){
