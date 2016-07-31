@@ -33,6 +33,7 @@ n=e.parentElement.querySelectorAll(s);console.log(n,n.length);
 function use(node){
  const m=path, e=node, t=e.tagName, j=e.childIndex, n=e.typeIndex, i=e.depth;
  let s,u,indented='\u0020'.repeat(i),c='';
+ m.length=i;
  s='class';
  if(e.hasAttribute(s)){
 	c=e.className.trim().split(/\s+/).join('\.');
@@ -62,7 +63,7 @@ function use(node){
 	s=m.slice(m.lastId);
 	indented+=s.join('\u0020>\u0020');
  };
- m.length=i;
+
  console.log(i,indented);
 }
 //===========================
